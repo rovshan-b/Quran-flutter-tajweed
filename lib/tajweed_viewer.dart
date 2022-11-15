@@ -29,11 +29,10 @@ class _TajweedViewerState extends State<TajweedViewer> {
   Future<List<TokenizedAya>> loadAyas() async {
     final content = await rootBundle
         .loadString('assets/metadata/Quran/quran-uthmani-kitab.txt');
+    //load sura Al-Bagara
     final splitter = LineSplitter.split(content).skip(7);
     final result = <TokenizedAya>[];
 
-    //load sura Al-Bagara
-    splitter.skip(7);
     int loaded = 0;
 
     for (final line in splitter) {
