@@ -1,6 +1,7 @@
-# بِسۡمِ ٱللَّهِ ٱلرَّحۡمَـٰنِ ٱلرَّحِیمِ
-
 # Quran Tajweed rules highlighter
+
+بسم الله الرحمن الرحيم
+*In the name of Allah, Most Gracious, Most Merciful*
 
 This is an example project that shows how to implement Quran Tajweed rules in flutter.  
 You can extract highlighting logic from it and use in your projects.
