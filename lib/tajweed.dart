@@ -405,7 +405,7 @@ class Tajweed {
 
   //Ye
   static const prolonging_byTwo_3 =
-      r'(\u0650(?<prolonging_byTwo_3>(\u064A|\u06CC))' +
+      r'(\u0650(?<prolonging_byTwo_3>(\u064A|\u06CC|\u06E6))' +
           followingExtensionByTwo +
           r')';
 
@@ -434,8 +434,12 @@ class Tajweed {
   (dayanmaq) zamanı fəthə (ə) ilə əvəz olunmasına deyilir. Uzatma
   miqdarı iki hərəkədir.
   */
+  //putting small high letters together withing same group as ending Alef.
+  //because currently flutter does not support coloring diacritics separately.
   static const prolonging_ivad =
-      r'((\u064B|\u08F0|\u0654\u06E2|\u064E\u06E2)(?<prolonging_ivad>\u0627)($|\u0020))';
+      r'((\u064B|\u08F0|\u0654\u06E2|\u064E\u06E2)(?<prolonging_ivad>\u0627' +
+          smallHighLetters +
+          r'?)($|\u0020))';
 
   static const extensionByTwo =
       '$prolonging_byTwo_1_1|$prolonging_byTwo_1_2|$prolonging_byTwo_1_3|$prolonging_byTwo_2|$prolonging_byTwo_3|$prolonging_lin|$prolonging_ivad';
@@ -448,7 +452,7 @@ class Tajweed {
   bu zaman mədd-ul-muttasıl əş verər.
   */
   static const maddLetters =
-      r'(\p{L}\u0670|\u0627|\u0622|\u0648|\u06E5|\u064A|\u06CC)';
+      r'(\p{L}\u0670|\u0627|\u0622|\u0648|\u06E5|\u064A|\u06CC|\u06E6)';
   static const hamza = r'\u0621';
   static const hamzaVariations =
       r'(\u0621|\u0623|\u0624|\u0625|\u0626|\u0649\u0655|\u0648\u0654|\u0627\u0654|\u0654|\u0655)';
