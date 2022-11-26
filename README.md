@@ -5,7 +5,28 @@
 
 This is an example project that shows how to implement Quran Tajweed rules in flutter.  
 You can extract highlighting logic from it and use in your projects.
-At the moment some highlighting rules are not implemented, but most are.  
+Following rules are implemented:
+ - Ghunna
+ - Ikhfaa - Noon sakin and tanweens
+ - Ikhfaa - Meem sakin
+ - Idgham with ghunna - Noon sakin and tanweens
+ - Idgham with ghunna - Meem sakin
+ - Idgham without ghunna - Noon sakin and tanweens
+ - Idgham without ghunna - Shamsiyya
+ - Idgham without ghunna - Misleyn
+ - Idgham without ghunna - Mutajaniseyn
+ - Idgham without ghunna - Mutagaribeyn
+ - Iqlab - Noon sakin and tanweens
+ - Izhar - Noon sakin and tanweens
+ - Qalqala
+ - Prolonging - by 2, 4, 6
+ - Prolonging - Lin
+ - Prolonging - Ivad
+ - Prolonging - Muttasil
+ - Prolonging - Munfasil
+ - Prolonging - Lazim
+ - Alef tafreeq
+ - Hamzatul wasl
 
 ## Getting Started
 
@@ -41,6 +62,8 @@ Text.rich(
     ),
 )
 ```
+
+`TajweedToken` contains properties to indicate what rule and subrule were matched, so that you can for example display documentation of rule.
 
 For performance reasons I recommend saving tokenization results to some XML file or database and later loading and displaying instead of tokenizing every time. Or at least use some cache variable in application and do not re-tokenize on every `build` method call.
 
