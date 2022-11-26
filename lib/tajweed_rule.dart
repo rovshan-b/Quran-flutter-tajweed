@@ -28,6 +28,10 @@ enum TajweedRule {
       color: Color.fromARGB(255, 142, 100, 214),
       darkThemeColor: Color.fromARGB(255, 191, 165, 236)),
 
+  alefTafreeq(10, color: Colors.grey),
+  hamzatulWasli(11, color: Colors.grey),
+  //marsoomKhilafLafzi(12, color: Colors.grey),
+
   none(100, color: null);
 
   const TajweedRule(this.priority,

@@ -34,7 +34,7 @@ class Tajweed {
 
   static const higherOrLowerMeem = r'(\u06E2|\u06ED)';
 
-  static const sukoon = r'(\u0652|\u06E1)';
+  static const sukoon = r'(\u0652|\u06E1|\u06DF)';
   static const optionalSukoon = r'(\u0652|\u06E1)?';
   static const noonWithOptionalSukoon = r'(\u0646' + optionalSukoon + r')';
 
@@ -404,10 +404,17 @@ class Tajweed {
           r')';
 
   //Ye
-  static const prolonging_byTwo_3 =
-      r'(\u0650(?<prolonging_byTwo_3>(\u064A|\u06CC|\u06E6))' +
+  static const prolonging_byTwo_3_1 =
+      r'(\u0650(?<prolonging_byTwo_3_1>(\u064A|\u06CC|\u06E6|\u06E7))' +
           followingExtensionByTwo +
           r')';
+  //Tatweel + small high Ye. Surat Al Baqara 61. (ٱلنَّبِیِّـۧنَ)
+  static const prolonging_byTwo_3_2 =
+      r'((?<prolonging_byTwo_3_2>\u0640\u06E7)' +
+          followingExtensionByTwo +
+          r')';
+  static const prolonging_byTwo_3 =
+      '$prolonging_byTwo_3_1|$prolonging_byTwo_3_2';
 
   /*
   24-cü dərs
@@ -452,7 +459,7 @@ class Tajweed {
   bu zaman mədd-ul-muttasıl əş verər.
   */
   static const maddLetters =
-      r'(\p{L}\u0670|\u0627|\u0622|\u0648|\u06E5|\u064A|\u06CC|\u06E6)';
+      r'(\p{L}\u0670|\u0627|\u0622|\u0648|\u06E5|\u064A|\u06CC|\u06E6|\u06E7)';
   static const hamza = r'\u0621';
   static const hamzaVariations =
       r'(\u0621|\u0623|\u0624|\u0625|\u0626|\u0649\u0655|\u0648\u0654|\u0627\u0654|\u0654|\u0655)';
@@ -476,7 +483,9 @@ class Tajweed {
       maddLetters +
       r'\u06E4?' +
       smallHighLetters +
-      r'?)(\u0627\u06DF)?\u0020' +
+      r'?)(\u0627' +
+      sukoon +
+      r')?\u0020' +
       hamzaVariations +
       r')';
 
@@ -516,6 +525,16 @@ class Tajweed {
 
   static const extensionBySix = '$prolonging_lazim_1|$prolonging_lazim_2';
 
+  static const alefTafreeq =
+      r'(\u0648\p{M}*(<?alefTafreeq>\u0627' + sukoon + r'))';
+
+  static const hamzatulWasli = r'([^^](?<hamzatulWasli>\u0671))';
+
+  // vav is marsoomKhilafLafzi prolonging, while upper alef is prolonging
+  //at the moment flutter cannot colorize them (letter and diacritic/upper letter) separately
+  // static const marsoomKhilafLafzi =
+  //     r'(\u064E(?<marsoomKhilafLafzi>\u0648)\u0670)';
+
   static const allRules = [
     LAFZATULLAH,
     izhar_noonSakinAndTanweens,
@@ -532,6 +551,9 @@ class Tajweed {
     prolonging_munfasil,
     extensionBySix,
     extensionByTwo,
+    alefTafreeq,
+    hamzatulWasli,
+    //marsoomKhilafLafzi,
   ];
 
   //13-cu dersde qalmisham
@@ -668,10 +690,13 @@ class Tajweed {
             groupName == "prolonging_byTwo_1_2" ||
             groupName == "prolonging_byTwo_1_3" ||
             groupName == "prolonging_byTwo_2" ||
-            groupName == "prolonging_byTwo_3" ||
+            groupName == "prolonging_byTwo_3_1" ||
             groupName == "prolonging_lin" ||
             groupName == "prolonging_ivad" ||
-            groupName == "prolonging_lazim_2") {
+            groupName == "prolonging_lazim_2" ||
+            groupName == "alefTafreeq" ||
+            groupName == "hamzatulWasli" ||
+            groupName == "marsoomKhilafLafzi") {
           final matchText = Aya.substring(m.start, m.end);
           final lastPartIx = matchText.indexOf(groupValue);
           matchStart = m.start + lastPartIx;
