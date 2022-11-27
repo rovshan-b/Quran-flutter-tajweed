@@ -525,8 +525,10 @@ class Tajweed {
 
   static const extensionBySix = '$prolonging_lazim_1|$prolonging_lazim_2';
 
-  static const alefTafreeq =
-      r'(\u0648\p{M}*(<?alefTafreeq>\u0627' + sukoon + r'))';
+  static const alefTafreeq = r'((\u0648\p{M}*)(?<alefTafreeq>\u0627' +
+      sukoon +
+      smallHighLetters +
+      r'?))';
 
   static const hamzatulWasli = r'([^^](?<hamzatulWasli>\u0671))';
 
@@ -558,7 +560,7 @@ class Tajweed {
 
   //13-cu dersde qalmisham
   static List<TajweedToken> tokenize(String AyaText, int sura, int aya) {
-    //debugPrint(iqlab_noonSakinAndTanweens_1);
+    //debugPrint(alefTafreeq);
     List<TajweedToken> results = [];
     for (int j = 0; j < allRules.length; ++j) {
       final regexp = RegExp(
