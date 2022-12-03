@@ -12,6 +12,7 @@ class Tajweed {
 
   static const smallHighLetters =
       r'(\u06DA|\u06D6|\u06D7|\u06D8|\u06D9|\u06DB|\u06E2|\u06ED)';
+  static const optionalSmallHighLetters = '$smallHighLetters?';
   static const smallHighLettersBetweenWords = smallHighLetters + r'?\u0020*';
   static const fathaKasraDammaWithoutTanvin = r'(\u064F|\u064E|\u0650)';
 
@@ -213,18 +214,21 @@ class Tajweed {
   static const idghamWithoutGhunna_mutajaniseyn_1 =
       r'(?<idghamWithoutGhunna_mutajaniseyn_1>[\u0637\u062F\u062A]' +
           optionalSukoon +
+          optionalSmallHighLetters +
           r')\u0020*(?!\1)([\u0637\u062F\u062A]' +
           shadda +
           r')';
   static const idghamWithoutGhunna_mutajaniseyn_2 =
       r'(?<idghamWithoutGhunna_mutajaniseyn_2>[\u0638\u0630\u062B]' +
           optionalSukoon +
+          optionalSmallHighLetters +
           r')\u0020*(?!\1)([\u0638\u0630\u062B]' +
           shadda +
           r')';
   static const idghamWithoutGhunna_mutajaniseyn_3 =
       r'(?<idghamWithoutGhunna_mutajaniseyn_3>[\u0628\u0645]' +
           optionalSukoon +
+          optionalSmallHighLetters +
           r')\u0020*(?!\1)([\u0628\u0645]' +
           shadda +
           r')';
@@ -246,18 +250,22 @@ class Tajweed {
   static const idghamWithoutGhunna_mutagaribeyn_1 =
       r'(?<idghamWithoutGhunna_mutagaribeyn_1>[\u0642\u0643]' +
           optionalSukoon +
+          optionalSmallHighLetters +
           r')\u0020*(?!\1)([\u0642\u0643]' +
           shadda +
           r')';
   static const idghamWithoutGhunna_mutagaribeyn_2 =
       r'(?<idghamWithoutGhunna_mutagaribeyn_2>[\u0646\u0644\u0631]' +
           optionalSukoon +
+          optionalSmallHighLetters +
           r')\u0020*(?!\1)([\u0646\u0644\u0631]' +
           shadda +
           r')';
 
+  //other sub-rules have backreferences so putting as separate entries
+  //below in array
   static const idghamWithoutGhunna =
-      '$idghamWithoutGhunna_noonSakinAndTanweens|$idghamWithoutGhunna_shamsiyya|$idghamWithoutGhunna_mutajaniseyn_1|$idghamWithoutGhunna_mutajaniseyn_2|$idghamWithoutGhunna_mutajaniseyn_3'; //can't put _3 here because it contains a backreference
+      '$idghamWithoutGhunna_noonSakinAndTanweens|$idghamWithoutGhunna_shamsiyya';
 
   /*
   7-ci dərs
@@ -459,14 +467,14 @@ class Tajweed {
   bu zaman mədd-ul-muttasıl əş verər.
   */
   static const maddLetters =
-      r'(\p{L}\u0670|\u0627|\u0622|\u0648|\u06E5|\u064A|\u06CC|\u06E6|\u06E7)';
+      r'(\p{L}?\u200A?\u0670|\u0627|\u0622|\u0648|\u06E5|\u064A|\u06CC|\u06E6|\u06E7)';
   static const hamza = r'\u0621';
   static const hamzaVariations =
       r'(\u0621|\u0623|\u0624|\u0625|\u0626|\u0649\u0655|\u0648\u0654|\u0627\u0654|\u0654|\u0655)';
 
   static const prolonging_muttasil = r'((?<prolonging_muttasil>' +
       maddLetters +
-      r'\u06E4?)' +
+      r'\u2060?\u06E4?)' +
       r'\u0640?' +
       hamzaVariations +
       r')';
@@ -525,7 +533,7 @@ class Tajweed {
 
   static const extensionBySix = '$prolonging_lazim_1|$prolonging_lazim_2';
 
-  static const alefTafreeq = r'((\u0648\p{M}*)(?<alefTafreeq>\u0627' +
+  static const alefTafreeq = r'(((\u0648|\u06E5)\p{M}*)(?<alefTafreeq>\u0627' +
       sukoon +
       smallHighLetters +
       r'?))';
@@ -547,6 +555,11 @@ class Tajweed {
     ghunna,
     idghamWithoutGhunna,
     idghamWithoutGhunna_misleyn,
+    idghamWithoutGhunna_mutajaniseyn_1,
+    idghamWithoutGhunna_mutajaniseyn_2,
+    idghamWithoutGhunna_mutajaniseyn_3,
+    idghamWithoutGhunna_mutagaribeyn_1,
+    idghamWithoutGhunna_mutagaribeyn_2,
     //izhar_meemSakin,
     //izhar_gamariyya,
     prolonging_muttasil,
@@ -604,7 +617,15 @@ class Tajweed {
 
         bool overlapping = prevItem.endIx > item.startIx;
         if (overlapping) {
-          if (item.rule.priority < prevItem.rule.priority) {
+          var priorityCurr = item.rule.priority;
+          var priorityPrev = prevItem.rule.priority;
+          if (item.rule == prevItem.rule &&
+              item.subrule != null &&
+              prevItem.subrule != null) {
+            priorityCurr = item.subrule!.priority;
+            priorityPrev = prevItem.subrule!.priority;
+          }
+          if (priorityCurr < priorityPrev) {
             results.removeAt(i - 1);
           } else {
             results.removeAt(i);
