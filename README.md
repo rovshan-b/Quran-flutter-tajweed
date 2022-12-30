@@ -63,8 +63,12 @@ Text.rich(
 )
 ```
 
-`TajweedToken` contains properties to indicate what rule and subrule were matched, so that you can for example display documentation of rule.
+`TajweedToken` contains properties to indicate what rule and subrule were matched, so that you can for example display documentation of rule.  
 
-For performance reasons I recommend saving tokenization results to some XML file or database and later loading and displaying instead of tokenizing every time. Or at least use some cache variable in application and do not re-tokenize on every `build` method call.
+If you need to get tokens grouped by words (for example for highlighting in UI etc) you can call
+`Tajweed.tokenizeAsWords(String AyaText, int sura, int aya)` method and it will return `List<TajweedWord>` where every 
+`TajweedWord` is one word that contains `TajweedToken`s inside it.  
+
+For performance use some cache variable in application and do not re-tokenize on every `build` method call.
 
 ![screenshot](/screenshot.png?raw=true "Screenshot")

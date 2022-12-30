@@ -61,43 +61,46 @@ class _TajweedViewerState extends State<TajweedViewer> {
         if (snapshot.data == null) {
           return const Text('No data');
         }
-        return Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: ListView.builder(
-              itemCount: loadOnly,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text.rich(
-                    TextSpan(
-                      children: <TextSpan>[
-                        for (final token in snapshot.data![index].tokens)
+        return Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: ListView.builder(
+                itemCount: loadOnly,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text.rich(
+                      TextSpan(
+                        children: <TextSpan>[
+                          for (final token in snapshot.data![index].tokens)
+                            TextSpan(
+                              text: token.text,
+                              style: TextStyle(
+                                fontFamily: 'Kitab',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 30,
+                                color: token.rule.color(context) ??
+                                    Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ),
                           TextSpan(
-                            text: token.text,
+                            text: '\u06DD${(index + 1).toArabicDigits()}',
                             style: TextStyle(
                               fontFamily: 'Kitab',
                               fontWeight: FontWeight.w400,
                               fontSize: 30,
-                              color: token.rule.color(context) ??
-                                  Theme.of(context).colorScheme.onSurface,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
-                          ),
-                        TextSpan(
-                          text: '\u06DD${(index + 1).toArabicDigits()}',
-                          style: TextStyle(
-                            fontFamily: 'Kitab',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 30,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'tajweed_subrule.dart';
 import 'tajweed_rule.dart';
 import 'tajweed_token.dart';
+import 'tajweed_word.dart';
 
 class Tajweed {
   static const LAFZATULLAH =
@@ -35,7 +36,8 @@ class Tajweed {
 
   static const higherOrLowerMeem = r'(\u06E2|\u06ED)';
 
-  static const sukoon = r'(\u0652|\u06E1|\u06DF)';
+  static const sukoonWithoutGrouping = r'\u0652|\u06E1|\u06DF';
+  static const sukoon = '($sukoonWithoutGrouping)';
   static const optionalSukoon = r'(\u0652|\u06E1)?';
   static const noonWithOptionalSukoon = r'(\u0646' + optionalSukoon + r')';
 
@@ -474,10 +476,10 @@ class Tajweed {
 
   static const prolonging_muttasil = r'((?<prolonging_muttasil>' +
       maddLetters +
-      r'\u2060?\u06E4?)' +
-      r'\u0640?' +
-      hamzaVariations +
-      r')';
+      r'\u2060?\u06E4?)'
+          r'\u0640?'
+          '$hamzaVariations[^$sukoonWithoutGrouping]' //burada sukun gelerse uzatma olur ya yox. mes: Beqere 72
+          r')';
 
   /*
   21-ci dərs
@@ -571,7 +573,10 @@ class Tajweed {
     //marsoomKhilafLafzi,
   ];
 
-  //13-cu dersde qalmisham
+  static List<TajweedWord> tokenizeAsWords(String AyaText, int sura, int aya) {
+    return tokensToWords(tokenize(AyaText, sura, aya));
+  }
+
   static List<TajweedToken> tokenize(String AyaText, int sura, int aya) {
     //debugPrint(alefTafreeq);
     List<TajweedToken> results = [];
@@ -684,6 +689,59 @@ class Tajweed {
     return results;
   }
 
+  static List<TajweedWord> tokensToWords(List<TajweedToken> tokens) {
+    final space = RegExp('\u0020', unicode: true);
+    //re-tokenize at word boundaries
+    final list = <TajweedToken>[];
+    for (final token in tokens) {
+      final parts = token.text.split(space);
+      var atIx = token.startIx;
+      for (int i = 0; i < parts.length; ++i) {
+        var part = parts[i];
+        list.add(TajweedToken(
+          token.rule,
+          token.subrule,
+          token.subruleSubindex,
+          part,
+          atIx,
+          atIx + part.length,
+          token.matchGroup,
+        ));
+        if (i < parts.length - 1) {
+          list.add(TajweedToken(
+            TajweedRule.none,
+            null,
+            null,
+            ' ',
+            atIx + part.length,
+            atIx + part.length + 1,
+            null,
+          ));
+          atIx += part.length + 1;
+        } else {
+          atIx += part.length;
+        }
+      }
+    }
+
+    final results = <TajweedWord>[];
+    var word = TajweedWord();
+    for (final token in list) {
+      if (token.text == '\u0020') {
+        results.add(word);
+        word = TajweedWord();
+        continue;
+      } else {
+        word.tokens.add(token);
+      }
+    }
+    if (word.tokens.isNotEmpty) {
+      results.add(word);
+    }
+
+    return results;
+  }
+
   static List<TajweedToken> tokenizeByRule(RegExp regexp, String Aya) {
     final results = <TajweedToken>[];
 
@@ -756,10 +814,11 @@ class Tajweed {
       String AyaText, int sura, int aya, List<TajweedToken> tokens) {
     final dunya = RegExp(r'\u062F\u0651?\u064F\u0646\u06E1\u06CC\u064E\u0627',
         unicode: true);
-    final dunyaIndex = AyaText.indexOf(dunya);
-    if (dunyaIndex != -1) {
+    var dunyaIndex = AyaText.indexOf(dunya);
+    while (dunyaIndex != -1) {
       tokens.remove(tokens.firstWhere((t) =>
           t.rule == TajweedRule.idghamWithGhunna && t.startIx > dunyaIndex));
+      dunyaIndex = AyaText.indexOf(dunya, dunyaIndex + 1);
     }
 
     //Al-Anam 6
