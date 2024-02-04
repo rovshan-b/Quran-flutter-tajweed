@@ -62,7 +62,7 @@ class _TajweedViewerState extends State<TajweedViewer> {
           return const Text('No data');
         }
         return Container(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.background,
           child: Padding(
             padding: const EdgeInsets.only(top: 30),
             child: Directionality(
@@ -82,6 +82,7 @@ class _TajweedViewerState extends State<TajweedViewer> {
                                 fontFamily: 'Kitab',
                                 fontWeight: FontWeight.w400,
                                 fontSize: 30,
+                                height: 1.9,
                                 color: token.rule.color(context) ??
                                     Theme.of(context).colorScheme.onSurface,
                               ),
@@ -92,6 +93,7 @@ class _TajweedViewerState extends State<TajweedViewer> {
                               fontFamily: 'Kitab',
                               fontWeight: FontWeight.w400,
                               fontSize: 30,
+                              height: 1.9,
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                           )

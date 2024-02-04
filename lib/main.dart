@@ -15,10 +15,6 @@ class MyApp extends StatelessWidget {
       title: 'Tajweed example',
       theme: ThemeData(
         brightness: Brightness.light,
-        //scaffoldBackgroundColor: Colors.white,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 120, 218, 123),
-        ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
@@ -34,6 +30,8 @@ class TajweedExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TajweedViewer();
+    return const Scaffold(
+      body: TajweedViewer(),
+    );
   }
 }

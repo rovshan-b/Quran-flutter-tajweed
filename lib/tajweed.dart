@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'tajweed_subrule.dart';
 import 'tajweed_rule.dart';
 import 'tajweed_token.dart';
