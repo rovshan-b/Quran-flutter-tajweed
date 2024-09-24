@@ -540,6 +540,19 @@ class Tajweed {
 
   static const hamzatulWasli = r'([^^](?<hamzatulWasli>\u0671))';
 
+  //takfeemRa
+  static const istillaLetters = '[\u0637\u0638\u0635\u0636\u0642\u063A\u062E]';
+  static const takfeemRa_1 =
+      '(?<takfeemRa>\u0631$shadda?[\u064E\u064F])'; // Ra with shadda followed by fatha or damma
+  static const takfeemRa_2 =
+      '([\u064E\u064F](?<takfeemRa>\u0631$sukoon))'; // Fatha or damma followed by Ra with sukoon
+  static const takfeemRa_3 =
+      '((?<takfeemRa>\u0631$sukoon?)$istillaLetters)'; // Ra (optionally with sukoon) followed by isti'laa letters
+  static const takfeemRa_4 =
+      '([\u064E\u064F][^\u064A](?<takfeemRa>$sukoon\u0631$sukoon?))'; // Fatha or Dummah then any letter except ya with Sukoon then Ra with Sukoon
+  static const takfeemRa_5 =
+      '((\u0671| \u0627)(?<takfeemRa>\u0631$sukoon))'; //  Hamzatul wasl or space+alif, then Ra with Sukoon
+
   // vav is marsoomKhilafLafzi prolonging, while upper alef is prolonging
   //at the moment flutter cannot colorize them (letter and diacritic/upper letter) separately
   // static const marsoomKhilafLafzi =
@@ -569,6 +582,11 @@ class Tajweed {
     alefTafreeq,
     hamzatulWasli,
     //marsoomKhilafLafzi,
+    takfeemRa_1,
+    takfeemRa_2,
+    takfeemRa_3,
+    takfeemRa_4,
+    takfeemRa_5,
   ];
 
   static List<TajweedWord> tokenizeAsWords(String AyaText, int sura, int aya) {
@@ -775,7 +793,8 @@ class Tajweed {
             groupName == "prolonging_lazim_2" ||
             groupName == "alefTafreeq" ||
             groupName == "hamzatulWasli" ||
-            groupName == "marsoomKhilafLafzi") {
+            groupName == "marsoomKhilafLafzi" ||
+            groupName == "takfeemRa") {
           final matchText = Aya.substring(m.start, m.end);
           final lastPartIx = matchText.indexOf(groupValue);
           matchStart = m.start + lastPartIx;

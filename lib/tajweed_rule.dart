@@ -32,6 +32,8 @@ enum TajweedRule {
   hamzatulWasli(11, color: Colors.grey),
   //marsoomKhilafLafzi(12, color: Colors.grey),
 
+  takfeemRa(12, color: Color.fromARGB(255, 90, 247, 95)),
+
   none(100, color: null);
 
   const TajweedRule(this.priority,
