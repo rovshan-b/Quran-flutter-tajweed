@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:tajweed/tajweed.dart';
 import 'package:tajweed/tajweed_token.dart';
-import 'arabic_number_converter.dart';
 
-import 'tajweed.dart';
+import 'arabic_number_converter.dart';
 
 class TokenizedAya {
   List<TajweedToken> tokens = [];
@@ -36,7 +34,11 @@ class _TajweedViewerState extends State<TajweedViewer> {
     int loaded = 0;
 
     for (final line in splitter) {
-      result.add(TokenizedAya(Tajweed.tokenize(line, 2, loaded + 1)));
+      final ayaTokens = Tajweed.tokenize(line, 2, loaded + 1);
+      //If you want to use pre-cached tokens without parsing on the fly comment out above line and uncomment below line
+      //final ayaTokens = CachedTajweedTokens.suraTokens[1][loaded]; //it is indexed zero-based
+
+      result.add(TokenizedAya(ayaTokens));
       if (++loaded >= loadOnly) {
         //load first 20 Ayas only
         break;
@@ -62,7 +64,7 @@ class _TajweedViewerState extends State<TajweedViewer> {
           return const Text('No data');
         }
         return Container(
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.surface,
           child: Padding(
             padding: const EdgeInsets.only(top: 30),
             child: Directionality(

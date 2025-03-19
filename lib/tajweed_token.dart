@@ -2,25 +2,25 @@ import 'tajweed_rule.dart';
 import 'tajweed_subrule.dart';
 
 class TajweedToken implements Comparable<TajweedToken> {
-  TajweedRule rule;
-  TajweedSubrule? subrule;
-  int? subruleSubindex;
+  final TajweedRule rule;
+  final TajweedSubrule? subrule;
+  final int? subruleSubindex;
 
-  String? matchGroup;
-  String text;
+  final String? matchGroup;
+  final String text;
 
-  int startIx;
-  int endIx;
+  final int startIx;
+  final int endIx;
 
-  TajweedToken(
-    this.rule,
-    this.subrule,
-    this.subruleSubindex,
-    this.text,
-    this.startIx,
-    this.endIx,
-    this.matchGroup,
-  );
+  const TajweedToken(
+      this.rule,
+      this.subrule,
+      this.subruleSubindex,
+      this.text,
+      this.startIx,
+      this.endIx,
+      this.matchGroup,
+      );
 
   bool isRule() {
     return rule != TajweedRule.none;
@@ -30,6 +30,19 @@ class TajweedToken implements Comparable<TajweedToken> {
     return rule == TajweedRule.none;
   }
 
+  ///whether can break into parts after this rule
+  ///for displaying in Tajweed view
+  // bool get canBreakAfter =>
+  //     text.endsWith(' ') &&
+  //     text != ' ' &&
+  //     (isNotRule() ||
+  //         (rule == TajweedRule.iqlab ||
+  //             rule == TajweedRule.qalqala ||
+  //             (subrule != null &&
+  //                 (subrule == TajweedSubrule.byTwo ||
+  //                     subrule == TajweedSubrule.lin ||
+  //                     subrule == TajweedSubrule.ivad ||
+  //                     subrule == TajweedSubrule.muttasil))));
   bool get canBreakAfter => text.endsWith(' ');
 
   @override
