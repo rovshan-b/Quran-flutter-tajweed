@@ -1,5 +1,5 @@
-import 'tajweed_subrule.dart';
 import 'tajweed_rule.dart';
+import 'tajweed_subrule.dart';
 import 'tajweed_token.dart';
 import 'tajweed_word.dart';
 
@@ -49,11 +49,11 @@ class Tajweed {
   /*
   Ghunna - Nasalistaion
 
-  The quality of ghunna is present in the letters م  and ن. 
+  The quality of ghunna is present in the letters م  and ن.
   So whenever we pronounce these letters the sound will go into the nose which is known as ghunna.
 
-  Whenever the letter م  or ن has a shadda we pronounce the letter with a strong ghunna. 
-  This means we will hold the sound in our nose for 2 counts. 
+  Whenever the letter م  or ن has a shadda we pronounce the letter with a strong ghunna.
+  This means we will hold the sound in our nose for 2 counts.
   */
   static const ghunna = r'(?<ghunna>(\u0645|\u0646)\u0651\p{M}*)';
 
@@ -65,7 +65,7 @@ class Tajweed {
   beş hərfdən biri gələrsə, bu zaman “Nun-i sakin” və ya “tənvin”-
   lərdə olan “n” səsi “xayşum”dan (burun boşluğundan) çıxacaqdır.
   İxfə hərfləri bunlardır:
-  
+
   ظ|ف|ق|ك|ت|ث|ج|د|ذ|ز|س|ش|ص|ض|ط
   */
 
@@ -115,12 +115,12 @@ class Tajweed {
 
   5-ci ders.
   ƏL-İDĞAM MƏ”AL-ĞUNNƏ
-  “Nun-i sakin” və ya “tənvin”lərdən sonra bu dörd hərf gələrsə 
+  “Nun-i sakin” və ya “tənvin”lərdən sonra bu dörd hərf gələrsə
   ي|م|ن|و
   bu zaman “nun-i sakin” və ya “tənvin”lər bu hərflərə daxil olur
   və səs burundan çıxır:
   فَمَن یَعۡمَلۡ
-   خَیۡرࣰا یَرَهُۥ  
+   خَیۡرࣰا یَرَهُۥ
 
   Qur”ani-Kərimdə dörd söz vardır ki, bunlarda “idğam” baş verməz.
   */
@@ -165,7 +165,7 @@ class Tajweed {
   “Nun-i sakin” və ya “tənvin”lərdən sonra bu iki hərf gələrsə,
   ل , ر bu zaman “nun-i sakin” və ya “tənvin”lər bu hərflərə
   daxil olar və səs ağız boşluğundan çıxar:
-  
+
   وَیۡلࣱ لِّكُلِّ هُمَزَةࣲ لُّمَزَةٍ
   */
   static const idghamWithoutGhunna_noonSakinAndTanweens =
@@ -511,11 +511,11 @@ class Tajweed {
   ması lazımdır. Mədd hərfindən sonra məddə səbəb olan amillər-
   dən biri, yəni sükun gələrsə, bu zaman mədd-ul-ləzim baş verər.
   Mədd-ul-ləzimin uzadılması vacibdir və bu, altı hərəkədir.
-  
+
   Mədd-ul-ləzim dörd qismə bölünür:
   1. Mədd-ul-ləzim kəlimi musaqqal (şəddəli kəlmə) (uzatma herfinden sonra shedde gelerse)
   2. Mədd-ul-ləzim kəlimi muxaffəf (sükunlu kəlmə). Bu mədd növü Qur”ani-Kərimdə yalnız Yunus surəsinin 51 və 91-ci ayələrində keçir.
-  3. Mədd-ul-ləzim hərfi musaqqal (şəddəli hərf). Bu mədd növü Qur”ani-Kərimdə bəzi surələrin başlığında olan müəyyən hərflərdir. 
+  3. Mədd-ul-ləzim hərfi musaqqal (şəddəli hərf). Bu mədd növü Qur”ani-Kərimdə bəzi surələrin başlığında olan müəyyən hərflərdir.
      Yəni uzadılan hərfin sonu özündən sonrakı hərfin başlığı ilə eyni olur: الۤمۤ
   4. Mədd-ul-ləzim hərfi muxaffəf (sükunlu hərf). Bu mədd növü Qur”ani-Kərimdə bəzi surələrin başlığında olan müəyyən hərflərdir.
   */
@@ -539,19 +539,6 @@ class Tajweed {
       r'?))';
 
   static const hamzatulWasli = r'([^^](?<hamzatulWasli>\u0671))';
-
-  //takfeemRa
-  static const istillaLetters = '[\u0637\u0638\u0635\u0636\u0642\u063A\u062E]';
-  static const takfeemRa_1 =
-      '(?<takfeemRa>\u0631$shadda?[\u064E\u064F])'; // Ra with shadda followed by fatha or damma
-  static const takfeemRa_2 =
-      '([\u064E\u064F](?<takfeemRa>\u0631$sukoon))'; // Fatha or damma followed by Ra with sukoon
-  static const takfeemRa_3 =
-      '((?<takfeemRa>\u0631$sukoon?)$istillaLetters)'; // Ra (optionally with sukoon) followed by isti'laa letters
-  static const takfeemRa_4 =
-      '([\u064E\u064F][^\u064A](?<takfeemRa>$sukoon\u0631$sukoon?))'; // Fatha or Dummah then any letter except ya with Sukoon then Ra with Sukoon
-  static const takfeemRa_5 =
-      '((\u0671| \u0627)(?<takfeemRa>\u0631$sukoon))'; //  Hamzatul wasl or space+alif, then Ra with Sukoon
 
   // vav is marsoomKhilafLafzi prolonging, while upper alef is prolonging
   //at the moment flutter cannot colorize them (letter and diacritic/upper letter) separately
@@ -582,11 +569,6 @@ class Tajweed {
     alefTafreeq,
     hamzatulWasli,
     //marsoomKhilafLafzi,
-    takfeemRa_1,
-    takfeemRa_2,
-    takfeemRa_3,
-    takfeemRa_4,
-    takfeemRa_5,
   ];
 
   static List<TajweedWord> tokenizeAsWords(String AyaText, int sura, int aya) {
@@ -793,8 +775,7 @@ class Tajweed {
             groupName == "prolonging_lazim_2" ||
             groupName == "alefTafreeq" ||
             groupName == "hamzatulWasli" ||
-            groupName == "marsoomKhilafLafzi" ||
-            groupName == "takfeemRa") {
+            groupName == "marsoomKhilafLafzi") {
           final matchText = Aya.substring(m.start, m.end);
           final lastPartIx = matchText.indexOf(groupValue);
           matchStart = m.start + lastPartIx;
