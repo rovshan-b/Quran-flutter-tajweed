@@ -26,10 +26,14 @@ Following rules are implemented:
 - Prolonging - Muttasil
 - Prolonging - Munfasil
 - Prolonging - Lazim
-- Alef tafreeq
 - Hamzatul wasl
+- Silent letters (written but not read: the alif after a plural waw, the small round zero, a waw or ya carrying a dagger alif read in its place)
+
+At the stop marks ۘ (must stop) and ۗ (stopping is better) the text is coloured as read with a stop there; at ۚ (either) and ۖ (joining is better) as read joined, so every word has one reading.
 
 ## Getting Started
+
+The code needs Dart 3.
 
 Main class that does tokenization is called `Tajweed`.  
 You call it like this: `Tajweed.tokenize(String AyaText, int sura, int aya)` and it returns `List<TajweedToken>` that
@@ -74,7 +78,7 @@ For performance use some cache variable in application and do not re-tokenize on
 
 ## Using pre-cached tokens
 
-Project also contains a file called `cached_tajweed_tokens.dart` that contains a class called `CachedTajweedTokens` with a static field `suraTokens`. That field is a **zero-indexed** list of pre-cached tokens for all Suras and all Ayas. That file is quite large in size, but if you decide to use it, below is how.
+Project also contains a file called `cached_tajweed_tokens.dart` that contains a class called `CachedTajweedTokens` with a static field `suraTokens`. That field is a **zero-indexed** list of pre-cached tokens for all Suras and all Ayas. That file is quite large in size, but if you decide to use it, below is how. The first aya of every sura except Al-Fatiha and At-Tawba is cached without the basmala the text file starts it with.
 
 ```dart
 //To retrieve tokens for last (7th) Aya of Sura Al Fatiha
